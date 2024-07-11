@@ -28,16 +28,16 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5500',
+    "http://localhost:8000",
     'http://127.0.0.1:5501',
     'https://*.127.0.0.1',
-    'https://blueskybooking.onrender.com',
+    "http://127.0.0.1:5500",
+    "https://payment-gateway-explore.onrender.com"
 ]
 
 
-
-
 CSRF_TRUSTED_ORIGINS = [
-    'https://blueskybooking.onrender.com',
+  "https://payment-gateway-explore.onrender.com" 
     'https://*.127.0.0.1',
     'http://127.0.0.1:5500',
     'http://127.0.0.1:5501',
@@ -126,7 +126,7 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-     'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
@@ -168,12 +168,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR/ 'media'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Default primary key field type
