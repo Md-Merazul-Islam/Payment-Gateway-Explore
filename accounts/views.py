@@ -41,7 +41,7 @@ class UserRegistrationSerializerViewSet(APIView):
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-            confirm_link = f"http://127.0.0.1:8000//user/active/{uid}/{token}"
+            confirm_link = f"https://payment-gateway-explore.onrender.com/accounts/active/{uid}/{token}"
             email_subject = "Confirm Your Email"
             email_body = render_to_string(
                 'confirm_email.html', {'confirm_link': confirm_link})
@@ -75,46 +75,25 @@ def activate(request, uid64, token):
         return redirect('verified_unsuccess')
 
 
-# class UserLoginApiView(APIView):
-#     def post(self, request):
-#         serializer = UserLoginSerializer(data=self.request.data)
+class UserLoginApiView(APIView):
+    def post(self, request):
+        serializer = UserLoginSerializer(data=self.request.data)
 
-#         if serializer.is_valid():
-#             username = serializer.validated_data['username']
-#             password = serializer.validated_data['password']
-
-#             user = authenticate(username=username, password=password)
-
-#             if user:
-#                 login(request, user)
-#                 token, _ = Token.objects.get_or_create(user=user)
-#                 print(token, _)
-#                 # login(request, user)
-#                 return Response({'token': token.key, 'user_id': user.id})
-#             else:
-#                 return Response({'error': 'Invalid Credentials'})
-#         return Response(serializer.errors)
-
-# account/views.py
-from django.contrib.auth import authenticate
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from .serializers import UserLoginSerializer
-
-class LoginView(APIView):
-    def post(self, request, *args, **kwargs):
-        serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                # Add any additional response data here (like tokens or user info)
-                return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+
+            user = authenticate(username=username, password=password)
+
+            if user:
+                login(request, user)
+                token, _ = Token.objects.get_or_create(user=user)
+                print(token, _)
+                # login(request, user)
+                return Response({'token': token.key, 'user_id': user.id})
             else:
-                return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'Invalid Credentials'})
+        return Response(serializer.errors)
 
 
 class UserLogoutApiView(APIView):

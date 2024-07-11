@@ -10,7 +10,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register/', views.UserRegistrationSerializerViewSet.as_view(), name='register'),
     path('active/<uid64>/<token>/', views.activate, name='active'),
-    path('login/', views.LoginView.as_view(), name='login'),
+    path('login/', views.UserLoginApiView.as_view(), name='login'),
     path('logout/', views.UserLogoutApiView.as_view(), name='logout'),
     path('successful-email-verified/', views.successful, name='verified_success'),
     path('unsuccessful-email-verified/',
